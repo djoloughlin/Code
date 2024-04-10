@@ -1,0 +1,77 @@
+---
+title: 'Tidy Tuesday Assignment #3'
+author: "Dan O'Loughlin"
+date: "2024-02-08"
+output: html_document
+---
+
+\
+
+# Solution Attempts for the Tidy Tuesday Assignment due on Friday, 16 Feb 2024
+
+\
+
+
+```{r,warning=FALSE,message=FALSE}
+library(tidyverse)
+
+# Load in the Tidy Tuesday data for 6 Feb 2024
+# Option 2: Read directly from GitHub
+
+heritage <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-06/heritage.csv')
+
+head(heritage)
+```
+
+```{r}
+library(dplyr)
+
+heritage_long<-gather(heritage,year,sites,-country)
+
+heritage_long
+
+```
+
+```{r}
+# Approximation to Plot No. 1
+# see https://100.datavizproject.com/data-type/viz1/
+
+
+ggplot(heritage_long,aes(x=year,y=sites))+
+         geom_col(aes(fill=country))
+       
+ggplot(heritage_long, aes( x=year,y=sites,fill=country)) +
+  geom_col()+
+  ylim(0,40)+
+  geom_text(aes(label = after_stat(y),group = year),stat = "summary",fun = sum,vjust = -1,hjust= .5,size=8)+
+  geom_text(aes(label=sites),position = "stack",vjust= 2,color="white", size = 6)
+
+
+```
+
+```{r}
+# Approximation to Plot No. 7
+# see https://100.datavizproject.com/data-type/viz1/
+
+
+ggplot(heritage,aes(x=`2022`,y=`2004`))+
+  geom_point(aes(color=country),size=4)+
+  geom_text(aes(label=country),vjust=-2)+
+  xlim(0,15)+ylim(0,15)
+  
+
+```
+
+
+```{r}
+# Approximation to Plot No. 25
+# see https://100.datavizproject.com/data-type/viz1/
+
+
+# ggplot(heritage,aes(x=`2022`,y=`2004`))+
+#   geom_point(aes(color=country),size=4)+
+#   geom_text(aes(label=country),vjust=-2)+
+#   xlim(0,15)+ylim(0,15)
+#   
+
+```
